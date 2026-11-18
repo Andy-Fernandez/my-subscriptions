@@ -1,0 +1,9 @@
+{
+  "id": "/", "name": "Gestor de suscripciones", "short_name": "Suscripciones",
+  "lang": "es", "start_url": "/", "scope": "/", "display": "standalone",
+  "background_color": "#f4f5ec", "theme_color": "#35452c",
+  "icons": [
+    {"src":"/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}

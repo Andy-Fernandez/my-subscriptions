@@ -1,0 +1,25 @@
+{
+  "name": "gestor-suscripciones",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "pnpm --filter @gestor/web build",
+    "typecheck": "tsc -p apps/api && tsc -p apps/web && tsc -p packages/shared",
+    "test": "node --import tsx --test apps/api/test/*.test.ts",
+    "db:local": "wrangler d1 migrations apply DB --local",
+    "dev": "pnpm db:local && pnpm build && wrangler dev --local --ip 127.0.0.1 --port 8787 --var LOCAL_DEVELOPMENT:1",
+    "dev:web": "pnpm --filter @gestor/web dev",
+    "deploy": "pnpm build && wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261117.1",
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "wrangler": "^4.92.0"
+  }
+}

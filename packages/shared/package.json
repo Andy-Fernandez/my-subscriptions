@@ -1,0 +1,5 @@
+{
+  "name": "@gestor/shared", "private": true, "type": "module",
+  "exports": { "./catalog": "./src/catalog.ts", "./finance": "./src/finance.ts", "./vault": "./src/vault.ts" },
+  "dependencies": { "zod": "^4.0.0" }
+}
