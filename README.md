@@ -5,7 +5,7 @@ Aplicación privada para administrar suscripciones compartidas en bolivianos (BO
 ## Requisitos
 
 - Node.js 24 o superior y pnpm 11.20.0. Si usas Corepack, ejecuta `corepack enable` para activar la versión indicada en `package.json`.
-- Una cuenta de Cloudflare y un dominio administrado allí para el despliegue. En local no necesitas una cuenta de Cloudflare ni una base de datos remota.
+- Una cuenta de Cloudflare para el despliegue. Puedes empezar con la dirección `workers.dev` y agregar un dominio propio después. En local no necesitas una cuenta de Cloudflare ni una base de datos remota.
 - Ejecuta todos los comandos desde la raíz del repositorio.
 
 ## Ejecutar en local
@@ -48,15 +48,15 @@ En la aplicación, crea primero un servicio, una suscripción y una persona en *
 
    Copia el `database_id` que devuelve el segundo comando en la entrada `DB` de `wrangler.jsonc`. Sustituye el valor inicial `00000000-0000-0000-0000-000000000000`.
 
-2. Elige un subdominio de tu zona Cloudflare, por ejemplo `suscripciones.ejemplo.com`. Añade esta propiedad al nivel superior de `wrangler.jsonc`, junto a `workers_dev`:
+2. El proyecto tiene `workers_dev: true`, así que Cloudflare le asigna una dirección `workers.dev` al desplegar. Si tienes un dominio propio en Cloudflare, puedes añadir esta propiedad al nivel superior de `wrangler.jsonc`, junto a `workers_dev`:
 
    ```json
    "routes": [{ "pattern": "suscripciones.ejemplo.com", "custom_domain": true }]
    ```
 
-   Sustituye el ejemplo por tu dominio real. El Worker servirá la interfaz y la API bajo ese mismo dominio. La configuración actual desactiva la dirección pública `workers.dev` y las URL de vista previa. [Dominios personalizados de Workers](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)
+   Sustituye el ejemplo por tu dominio real. El Worker servirá la interfaz y la API bajo ese mismo dominio. Las URL de vista previa están desactivadas. [Dominios personalizados de Workers](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)
 
-3. En **Cloudflare Zero Trust → Access controls → Applications**, crea una aplicación **Self-hosted** que cubra el subdominio completo. Configura un método de inicio de sesión y una política **Allow** limitada a tu correo de administrador. Copia el **Application Audience (AUD) Tag** desde los ajustes adicionales de esa aplicación. Identifica también el host de tu equipo, por ejemplo `equipo.cloudflareaccess.com`. [Aplicaciones protegidas con Access](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/choose-application-type/), [rutas protegidas](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/app-paths/)
+3. Al crear el Worker, activa **Protect with Cloudflare Access**, selecciona **All traffic** y una política **Allow** limitada a tu correo exacto. Esto protege las direcciones del Worker, incluida `workers.dev`. También puedes hacerlo después en **Workers & Pages → tu Worker → Access**. Copia el **Application Audience (AUD) Tag** desde la aplicación de Access creada e identifica el host de tu equipo, por ejemplo `equipo.cloudflareaccess.com`. [Access para Workers](https://developers.cloudflare.com/workers/configuration/cloudflare-access/)
 
 4. Aplica las migraciones a la D1 remota y publica el Worker:
 
@@ -73,7 +73,7 @@ En la aplicación, crea primero un servicio, una suscripción y una persona en *
    pnpm exec wrangler secret put ADMIN_EMAIL
    ```
 
-   El Worker exige un JWT firmado por Access para entregar tanto la interfaz como la API. Hasta introducir los tres valores responde con acceso denegado. Abre el dominio, inicia sesión con el correo permitido y comprueba que cargue **Resumen**. [Validación de JWT de Access](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/)
+   El Worker exige un JWT firmado por Access para entregar tanto la interfaz como la API. Hasta introducir los tres valores responde con acceso denegado. Abre la dirección publicada, inicia sesión con el correo permitido y comprueba que cargue **Resumen**. [Validación de JWT de Access](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/)
 
 Para publicar cambios posteriores, aplica primero las migraciones nuevas con `pnpm exec wrangler d1 migrations apply DB --remote` y ejecuta `pnpm deploy`. Revisa el resultado con `pnpm typecheck` y `pnpm test` antes de publicar.
 

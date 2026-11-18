@@ -3,7 +3,7 @@
   "name": "gestor-suscripciones",
   "main": "apps/api/src/index.ts",
   "compatibility_date": "2026-04-01",
-  "workers_dev": false,
+  "workers_dev": true,
   "preview_urls": false,
   "assets": {
     "directory": "./apps/web/dist",
@@ -14,7 +14,7 @@
   "d1_databases": [{
     "binding": "DB",
     "database_name": "gestor-suscripciones",
-    "database_id": "00000000-0000-0000-0000-000000000000",
+    "database_id": "fdd28c45-1f6d-4829-bdce-7e5c13d7fa2c",
     "migrations_dir": "database/migrations"
   }]
 }
