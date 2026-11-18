@@ -1,0 +1,23 @@
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.install-control.ui-button-icon {
+  width: 44px;
+  height: 44px;
+  color: var(--blue-ink);
+  background: var(--blue-soft);
+}
+
+@media (max-width: 360px) {
+  .topbar-actions:has(.install-control) .mobile-record {
+    width: 40px;
+    min-height: 40px;
+  }
+
+  .topbar-actions:has(.install-control) .mobile-record-label {
+    display: none;
+  }
+}

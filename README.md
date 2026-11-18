@@ -69,6 +69,15 @@ En la aplicación, crea primero un servicio, una suscripción y una persona en *
 
 Para publicar cambios posteriores, aplica primero las migraciones nuevas con `pnpm exec wrangler d1 migrations apply DB --remote` y ejecuta `pnpm deploy`. Revisa el resultado con `pnpm typecheck` y `pnpm test` antes de publicar.
 
+## Instalar en el celular
+
+Abre la URL publicada e inicia sesión con tu correo en Cloudflare Access. Usa el botón **Instalar app** en la cabecera.
+
+- **Android:** en Chrome, también puedes usar el menú **⋮ → Instalar y crear acceso directo → Instalar**. [Ayuda de Chrome](https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DAndroid&hl=es)
+- **iPhone:** en Safari, toca **Compartir → Añadir a pantalla de inicio**. Activa **Abrir como app web** si aparece y toca **Añadir**. [Ayuda de Apple](https://support.apple.com/guide/iphone/open-as-web-app-iphea86e5236/27/ios/27)
+
+Abre **Suscripciones** desde su icono. La app requiere conexión para consultar o guardar datos.
+
 ## Respaldo y restauración
 
 Crea un respaldo SQL de D1 desde la raíz del repositorio:

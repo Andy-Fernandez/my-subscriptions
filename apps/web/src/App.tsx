@@ -3,6 +3,7 @@ import { ArrowDownUp, ArrowRight, CalendarDays, CircleCheck, Layers3, LayoutGrid
 import { financeDateSchema, type Charge, type Dashboard, type Expense, type Payment } from '@gestor/shared/finance'
 import Catalog from './Catalog'
 import Vault from './Vault'
+import InstallApp from './InstallApp'
 import { Button } from './components/ui/button'
 import { FinanceOperationDialog } from './FinanceOperationDialog'
 import { CashChart, ChargeMargin, DataError, Metrics, MovementList, PendingPanel, RangeLabel } from './FinanceOverview'
@@ -58,7 +59,7 @@ function currentRoute(): Route {
 function Brand() {
   return (
     <a className="brand" href="#resumen" aria-label="Suscripciones, ir al resumen">
-      <span className="brand-icon" aria-hidden="true"><Layers3 size={23} strokeWidth={2} /></span>
+      <img className="brand-icon" src="/icon-192.png" width={40} height={40} alt="" />
       <span className="brand-text"><strong>Suscripciones</strong><small>Gestión personal</small></span>
     </a>
   )
@@ -140,8 +141,11 @@ export default function App() {
           <div className="topbar-inner">
             <div className="mobile-brand"><Brand /></div>
             <p className="topbar-section">{pageLabel}</p>
-            <div className="topbar-date"><CalendarDays size={16} aria-hidden="true" /><time dateTime={localDate()}>{displayDate(localDate())}</time></div>
-            {inFinance && <Button className="mobile-record" size="sm" onClick={record}><Plus size={18} aria-hidden="true" />Registrar</Button>}
+            <div className="topbar-actions">
+              <div className="topbar-date"><CalendarDays size={16} aria-hidden="true" /><time dateTime={localDate()}>{displayDate(localDate())}</time></div>
+              <InstallApp />
+              {inFinance && <Button className="mobile-record" size="sm" aria-label="Registrar movimiento" onClick={record}><Plus size={18} aria-hidden="true" /><span className="mobile-record-label">Registrar</span></Button>}
+            </div>
           </div>
         </header>
         <main id="main-content" className="app-content" ref={main} tabIndex={-1}>{content}</main>
