@@ -56,7 +56,7 @@ En la aplicación, crea primero un servicio, una suscripción y una persona en *
 
    Sustituye el ejemplo por tu dominio real. El Worker servirá la interfaz y la API bajo ese mismo dominio. Las URL de vista previa están desactivadas. [Dominios personalizados de Workers](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)
 
-3. En **Zero Trust → Integrations → Identity providers**, agrega **One-time PIN** como método de inicio de sesión. Al crear el Worker, activa **Protect with Cloudflare Access**, selecciona **All traffic** y una política **Allow → Emails** limitada a tu correo exacto. En **Access controls → Applications → aplicación del Worker → Edit → Login methods**, habilita **One-time PIN** si la aplicación no acepta automáticamente los métodos disponibles. Esto protege las direcciones del Worker, incluida `workers.dev`. Copia el **Application Audience (AUD) Tag** desde la aplicación de Access creada e identifica el host de tu equipo, por ejemplo `equipo.cloudflareaccess.com`. [Método One-time PIN](https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/one-time-pin/), [Access para Workers](https://developers.cloudflare.com/workers/configuration/cloudflare-access/)
+3. En **Zero Trust → Integrations → Identity providers**, agrega **One-time PIN**. En el Worker activa **Protect with Cloudflare Access → All traffic** y una política **Allow → Emails** limitada a tu correo exacto. Si es necesario, habilita One-time PIN en **Access controls → Applications → aplicación del Worker → Edit → Login methods**. La política debe permanecer activa para proteger la interfaz y la API. [Método One-time PIN](https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/one-time-pin/), [Access para Workers](https://developers.cloudflare.com/workers/configuration/cloudflare-access/)
 
 4. Aplica las migraciones a la D1 remota y publica el Worker:
 
@@ -65,15 +65,7 @@ En la aplicación, crea primero un servicio, una suscripción y una persona en *
    pnpm deploy
    ```
 
-5. Introduce los tres valores de Access cuando Wrangler los solicite. `ACCESS_TEAM_DOMAIN` lleva únicamente el host, sin `https://` ni una barra final. `ADMIN_EMAIL` debe coincidir con el correo autorizado. Wrangler guarda estos valores fuera del repositorio:
-
-   ```bash
-   pnpm exec wrangler secret put ACCESS_TEAM_DOMAIN
-   pnpm exec wrangler secret put ACCESS_AUD
-   pnpm exec wrangler secret put ADMIN_EMAIL
-   ```
-
-   El Worker exige un JWT firmado por Access para entregar tanto la interfaz como la API. Hasta introducir los tres valores responde con acceso denegado. Abre la dirección publicada, inicia sesión con el correo permitido y comprueba que cargue **Resumen**. [Validación de JWT de Access](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/)
+5. Abre la dirección `workers.dev` publicada, inicia sesión con el correo permitido y comprueba que cargue **Resumen**. El control de acceso lo aplica Cloudflare antes de ejecutar el Worker.
 
 Para publicar cambios posteriores, aplica primero las migraciones nuevas con `pnpm exec wrangler d1 migrations apply DB --remote` y ejecuta `pnpm deploy`. Revisa el resultado con `pnpm typecheck` y `pnpm test` antes de publicar.
 

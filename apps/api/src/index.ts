@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { bodyLimit } from 'hono/body-limit'
-import { authorized, type AppBindings } from './access'
+import type { AppBindings } from './bindings'
 import { catalog } from './catalog'
 import { finance } from './finance'
 import { vault } from './vault'
@@ -17,11 +17,6 @@ app.use('*', async (c, next) => {
   if (new URL(c.req.url).protocol === 'https:') {
     c.header('Strict-Transport-Security', 'max-age=31536000')
   }
-})
-
-app.use('*', async (c, next) => {
-  if (!(await authorized(c.req.raw, c.env))) return c.json({ error: 'Se requiere acceso del administrador.' }, 403)
-  await next()
 })
 
 app.use('/api/*', bodyLimit({ maxSize: 64 * 1024, onError: c => c.json({ error: 'Solicitud demasiado grande.' }, 413) }))

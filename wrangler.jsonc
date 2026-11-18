@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "gestor-suscripciones",
+  "name": "my-subscriptions",
   "main": "apps/api/src/index.ts",
   "compatibility_date": "2026-04-01",
   "workers_dev": true,
